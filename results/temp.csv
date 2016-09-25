@@ -1,0 +1,72 @@
+clientid,Publisher taxonomyid,Publisher taxonomytext,globaltaxonomyid,Global taxonomytext,score
+303,3130253,Breakroom,150280,Apparel & Accessories|Clothing|Underwear & Socks|Bras,68
+303,3130253,Breakroom,150271,Apparel & Accessories|Clothing|Traditional & Ceremonial Clothing|Kimonos|Bridal Kimonos,52
+303,3130253,Breakroom,150221,Apparel & Accessories|Clothing|Outerwear|Coats & Jackets|Boleros,50
+303,3130253,Breakroom,150194,Apparel & Accessories|Clothing|Baby & Toddler Clothing|Baby & Toddler Bottoms,50
+303,3130253,Breakroom,150748,Arts & Entertainment|Hobbies & Creative Arts|Musical Instruments|Brass,54
+303,3130253,Breakroom,150544,Arts & Entertainment|Hobbies & Creative Arts|Crafts & Hobbies|Jewelry Making|Beads,54
+303,3130253,Breakroom,150509,Arts & Entertainment|Hobbies & Creative Arts|Crafts & Hobbies|Blank Books & Journals,50
+303,3130253,Breakroom,150994,Business & Industrial|Science & Laboratory|Laboratory Supplies|Beakers,63
+303,3130253,Breakroom,151111,Cameras & Optics|Photography|Lighting & Studio|Backgrounds,50
+303,3130253,Breakroom,151099,Cameras & Optics|Photography|Darkroom|Enlarging Equipment|Darkroom Timers,60
+303,3130253,Breakroom,151098,Cameras & Optics|Photography|Darkroom|Enlarging Equipment|Darkroom Easels,60
+303,3130253,Breakroom,151092,Cameras & Optics|Photography|Darkroom|Developing & Processing Equipment|Darkroom Sinks,60
+303,3130253,Breakroom,151089,Cameras & Optics|Photography|Darkroom,71
+303,3130253,Breakroom,151503,Electronics|Video|Projectors|Overhead Projectors,50
+303,3130253,Breakroom,151409,Electronics|Electronics Accessories|Memory|ROM,60
+303,3130253,Breakroom,151408,Electronics|Electronics Accessories|Memory|RAM,60
+303,3130253,Breakroom,151196,Electronics|Circuit Components|Circuit Prototyping|Breadboards,50
+303,3130253,Breakroom,151169,Electronics|Audio|Audio Players & Recorders|Audio Recorders|Multitrack Recorders,50
+303,3130253,Breakroom,151814,"Food, Beverages & Tobacco|Food Items|Prepared Foods",52
+303,3130253,Breakroom,151798,"Food, Beverages & Tobacco|Food Items|Meat, Seafood & Eggs|Seafood",50
+303,3130253,Breakroom,151751,"Food, Beverages & Tobacco|Food Items|Dairy Products|Cream",57
+303,3130253,Breakroom,151716,"Food, Beverages & Tobacco|Food Items|Cooking & Baking Ingredients|Bread Crumbs",57
+303,3130253,Breakroom,151708,"Food, Beverages & Tobacco|Food Items|Cooking & Baking Ingredients|Baking Mixes|Bread Mixes",50
+303,3130253,Breakroom,151659,"Food, Beverages & Tobacco|Food Items|Bakery",60
+303,3130253,Breakroom,151934,Furniture|Vanities|Bathroom Vanities,60
+303,3130253,Breakroom,151899,Furniture|Desks & Tables|Conference Room Tables,50
+303,3130253,Breakroom,151881,Furniture|Chairs|Bar Stools,53
+303,3130253,Breakroom,198567,Furniture|Cabinets & Storage|Vanities|Bedroom Vanities,60
+303,3130253,Breakroom,151859,Furniture|Bedroom Furniture,60
+303,3130253,Breakroom,198569,Furniture|Baby & Toddler Furniture|Playroom Furniture,50
+303,3130253,Breakroom,152357,Hardware|Tools|Reamers,50
+303,3130253,Breakroom,152334,Hardware|Tools|Measuring Tools & Sensors|Vibration Meters,50
+303,3130253,Breakroom,152321,Hardware|Tools|Measuring Tools & Sensors|Rebar Locators,52
+303,3130253,Breakroom,152299,Hardware|Tools|Measuring Tools & Sensors|Barometers,53
+303,3130253,Breakroom,152288,Hardware|Tools|Masonry Tools|Brick Tools,50
+303,3130253,Breakroom,152229,Hardware|Tools|Concrete Brooms,50
+303,3130253,Breakroom,152142,Hardware|Plumbing|Repair Kits|Tube Repair Kits,50
+303,3130253,Breakroom,152115,Hardware|Plumbing|Plumbing Fixtures|Sinks|Bathroom Sinks,60
+303,3130253,Breakroom,153291,Home & Garden|Lawn & Garden|Gardening|Gardening Tools|Rakes,54
+303,3130253,Breakroom,153167,Home & Garden|Kitchen & Dining|Kitchen Tools & Utensils|Food Crackers,52
+303,3130253,Breakroom,153066,Home & Garden|Kitchen & Dining|Kitchen Appliances|Breadmakers,60
+303,3130253,Breakroom,153057,Home & Garden|Kitchen & Dining|Kitchen Appliance Accessories|Range Accessories|Range Burner Covers,50
+303,3130253,Breakroom,153006,Home & Garden|Kitchen & Dining|Kitchen Appliance Accessories|Breadmaker Accessories,50
+303,3130253,Breakroom,152991,Home & Garden|Kitchen & Dining|Food Storage|Bread Boxes,50
+303,3130253,Breakroom,152939,Home & Garden|Kitchen & Dining|Barware,50
+303,3130253,Breakroom,152839,Home & Garden|Household Supplies|Household Cleaning Supplies|Brooms,67
+303,3130253,Breakroom,152838,Home & Garden|Household Supplies|Household Cleaning Supplies|Broom & Mop Handles,50
+303,3130253,Breakroom,152737,Home & Garden|Fire & Gas Safety|Fire Alarms,50
+303,3130253,Breakroom,152661,Home & Garden|Decor|Clocks|Alarm Clocks|Portable Alarm Clocks,50
+303,3130253,Breakroom,152633,Home & Garden|Bathroom Accessories,60
+303,3130253,Breakroom,153545,Media|Product Manuals|Sports & Recreation Manuals,50
+303,3130253,Breakroom,153516,Media|Books|Non-Fiction|Literary Books,50
+303,3130253,Breakroom,154363,Sporting Goods|Winter Sports|Snowboarding|Snowboard Boots,50
+303,3130253,Breakroom,153990,Sporting Goods|Outdoor Recreation|Equestrian|Horse Supplies|Horse Grooming,60
+303,3130253,Breakroom,153937,Sporting Goods|Outdoor Recreation|Cycling|Bicycle Parts|Bicycle Brake Parts|Bicycle Brake Rotors,60
+303,3130253,Breakroom,154735,Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Transmission Parts|Rocker Arms,50
+303,3130253,Breakroom,320064,Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Engine Parts|Vehicle Starter Motors,50
+303,3130253,Breakroom,154665,Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Engine Parts|Vehicle Starter Motor Parts,50
+303,3130253,Breakroom,154631,Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Braking|Vehicle Manual Brake Parts,50
+303,3130253,Breakroom,154630,Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Braking|Vehicle Brake Parts,50
+303,3130253,Breakroom,154629,Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Braking|Parking Brake Parts,50
+303,3130253,Breakroom,154534,Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Care|Vehicle Cleaning|Vehicle Aerosol Cleaners,50
+303,3130253,Breakroom,154513,Vehicles & Parts|Vehicle Parts & Accessories|Car Audio & Video|Car Audio|Car Speakerphones,50
+le Parts & Accessories|Motor Vehicle Parts|Transmission Parts|Rocker Arms']"
+50,"['303', '3130253', 'Breakroom']","['320064', 'Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Engine Parts|Vehicle Starter Motors']"
+50,"['303', '3130253', 'Breakroom']","['154665', 'Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Engine Parts|Vehicle Starter Motor Parts']"
+50,"['303', '3130253', 'Breakroom']","['154631', 'Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Braking|Vehicle Manual Brake Parts']"
+50,"['303', '3130253', 'Breakroom']","['154630', 'Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Braking|Vehicle Brake Parts']"
+50,"['303', '3130253', 'Breakroom']","['154629', 'Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Parts|Motor Vehicle Braking|Parking Brake Parts']"
+50,"['303', '3130253', 'Breakroom']","['154534', 'Vehicles & Parts|Vehicle Parts & Accessories|Motor Vehicle Care|Vehicle Cleaning|Vehicle Aerosol Cleaners']"
+50,"['303', '3130253', 'Breakroom']","['154513', 'Vehicles & Parts|Vehicle Parts & Accessories|Car Audio & Video|Car Audio|Car Speakerphones']"

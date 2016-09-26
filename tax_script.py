@@ -2,10 +2,10 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import string_processing
 from fuzzywuzzy import process
 from Levenshtein import *
-import difflib
-import csv
-import pymssql
 import datetime
+import difflib
+import pymssql
+import csv
 
 def CompareTaxonomyNodes(p, g):
     score = fuzz.WRatio(p, g)
@@ -16,8 +16,14 @@ def SetReviewLevel(score):
     if score >= 90: return "Exact"
     elif score >= 80: return "Near"
     else: return "Far"
+    
+## be sure to make sure column headers line up and remove them from the 
+## spreadsheet before feeding into this script
 
-fname = "OfficeDepot_taxonomies_test"
+# for ebay, need to see which taxonomies need to use the second from end node
+# i.e. stuffed animals from toys|stuffed animals|hello kitty
+#fname = "Test_eBay_pt_2"
+fname = "Test_OfficeDepot_pt_2"
 
 # set file path names
 root = "C:\\Users\\bbeale\\Documents\\Visual Studio Code\\dataops\\" 
@@ -41,7 +47,7 @@ final_.writerow(toprow_)
 # matching google taxonomies to publisher taxonomies, scored with wratio(), to a new csv
 for p in pub_taxonomies_:
 
-    p_ = p[2].split("|")
+    p_ = p[3].split("|")
     endnode = p_[-1].rstrip().lower()
     best = ["NULL", "NULL"]
     score = 0
@@ -61,11 +67,11 @@ for p in pub_taxonomies_:
                 best = g
                 score = fuzz.WRatio(endnode, gnode)
 
-        cid = p[0]
-        tid = p[1]
-        tt = p[2]
+        clientid = p[0]
+        taxonomyid = p[2]
+        taxonomytext = p[3]
 
-    matches = [cid, tid, tt, best[0], best[1], SetReviewLevel(score)]
+    matches = [clientid, taxonomyid, taxonomytext, best[0], best[1], SetReviewLevel(score)]
 
     final_.writerow(matches)
     #print matches 

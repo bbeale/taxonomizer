@@ -5,55 +5,71 @@ from Levenshtein import *
 import difflib
 import csv
 import pymssql
+import datetime
 
 def CompareTaxonomyNodes(p, g):
-
     score = fuzz.WRatio(p, g)
-
     if score >= 50:
         return True
 
-def ExtractFirst(array):
-    array.sort(key=lambda a: int(a[1]), reverse=True)
-    return array[0]
+def SetReviewLevel(score):
+    if score >= 90: return "Exact"
+    elif score >= 80: return "Near"
+    else: return "Far"
 
+fname = "OfficeDepot_taxonomies_test"
+
+# set file path names
 root = "C:\\Users\\bbeale\\Documents\\Visual Studio Code\\dataops\\" 
+desktop = "C:\\Users\\bbeale\\Desktop\\"
 
-google_taxonomies = open(root + "testfiles\\googletaxonomy.csv", "r")
-pub_taxonomies = open(root + "testfiles\\officedepot_taxonomies_test.csv", "r")
-#temp = open(root + "results\\temp.csv", "r+")
-
-google_taxonomies_ = csv.reader(google_taxonomies, delimiter=',', lineterminator='\n')
+# open publisher tax file, create csv reader object
+pub_taxonomies = open(desktop + fname + ".csv", "r")
 pub_taxonomies_ = csv.reader(pub_taxonomies, delimiter=',', lineterminator='\n')
-#temp_ = csv.writer(temp, delimiter=',', lineterminator='\n')
 
-# if client name is given 
-toprow = ["clientid", "name", "Publisher taxonomyid", "Publisher taxonomytext", "globaltaxonomyid", "Global taxonomytext", "score"]
+# if client name is given  
+toprow = ["clientid", "name", "Publisher taxonomyid", "Publisher taxonomytext", "globaltaxonomyid", "Global taxonomytext", "Distance"]
 # if just clientid is given
-toprow_ = ["clientid", "Publisher taxonomyid", "Publisher taxonomytext", "globaltaxonomyid", "Global taxonomytext", "score"]
+toprow_ = ["clientid", "Publisher taxonomyid", "Publisher taxonomytext", "globaltaxonomyid", "Global taxonomytext", "Distance"]
 
-#temp_.writerow(toprow_)
+# create output file, write top row
+final = open(desktop + fname + " - MAPPED - " + str(datetime.datetime.now().date()) + ".csv", "w")
+final_ = csv.writer(final, delimiter=',', lineterminator='\n')
+final_.writerow(toprow_)
 
+# compare end nodes for each publisher taxonomy to end nodes for each google taxonomy, write list of best
+# matching google taxonomies to publisher taxonomies, scored with wratio(), to a new csv
 for p in pub_taxonomies_:
+
     p_ = p[2].split("|")
     endnode = p_[-1].rstrip().lower()
     best = ["NULL", "NULL"]
     score = 0
-    matches = [p, best, score]
+    
+    google_taxonomies = open(root + "testfiles\\googletaxonomy.csv", "r")
+    google_taxonomies_ = csv.reader(google_taxonomies, delimiter=',', lineterminator='\n')
 
     for g in google_taxonomies_:
+
         g_ = g[1].split("|")
         gnode = g_[-1].rstrip().lower()
+
         if CompareTaxonomyNodes(endnode, gnode):
+
             if fuzz.WRatio(endnode, gnode) > score:
+
                 best = g
                 score = fuzz.WRatio(endnode, gnode)
-            res = [matches[0], best, score]
-    final = open(root + "results\\mapped.csv", "w")
-    final_ = csv.writer(final, delimiter=',', lineterminator='\n')
-    final_.writerow(toprow_)
-    final_.writerow(res)
-    final.close()
-google_taxonomies.close()
+
+        cid = p[0]
+        tid = p[1]
+        tt = p[2]
+
+    matches = [cid, tid, tt, best[0], best[1], SetReviewLevel(score)]
+
+    final_.writerow(matches)
+    #print matches 
+    google_taxonomies.close()
+
 pub_taxonomies.close()
-#temp.close()
+final.close()

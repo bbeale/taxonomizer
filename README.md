@@ -1,6 +1,8 @@
 A module for data ops daily tasks
 
-To use: 
+Before use: Be sure dataops is inside the PythonXX / Lib / site-packages directory
+
+Instructions for use:
 
 1. Start with a threshold in the mid to upper 90s (100 if it seems feasible based on pub taxonomies) and an index of -1
 2. Repeat with the same index as necessary, lowering the threshold gradually no more than 90 (keep in mind that as the threshold drops < 90 the number of incorrect matches will skyrocket)

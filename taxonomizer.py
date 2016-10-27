@@ -209,7 +209,7 @@ def MapVintageTaxonomies(pub):
                 print vint, " is in ", taxonomytext
                 best = ["150477", "Arts & Entertainment|Hobbies & Creative Arts|Collectibles"]
 
-        matches = [clientid, name, taxonomyid, taxonomytext, best[0], best[1], "Bucket"]
+        matches = [clientid, name, taxonomyid, taxonomytext, best[0], best[1], "Vintage"]
         list_of_matches.append(matches)
 
     return list_of_matches
@@ -233,8 +233,31 @@ def MapBooks(pub):
             print "book is in ", taxonomytext
             best = ["153484", "Media|Books"]
 
-        matches = [clientid, name, taxonomyid, taxonomytext, best[0], best[1], "Bucket"]
+        matches = [clientid, name, taxonomyid, taxonomytext, best[0], best[1], "Book"]
         list_of_matches.append(matches)
 
     return list_of_matches
 
+def MapGifts(pub):
+
+    list_of_matches = []
+    
+    for p in pub:  
+
+        clientid = p[0]
+        name = p[1]
+        taxonomyid = p[2]
+        taxonomytext = p[3].lower()
+        best = ["NULL", "NULL"]
+
+        p_unique = GetUniqueTaxonomyWords(taxonomytext)
+        p_unique = p_unique.lower()
+        
+        if IsInBucket("gift", taxonomytext):
+            print "gift is in ", taxonomytext
+            best = ["150790", "Arts & Entertainment|Party & Celebration|Gift Giving"]
+
+        matches = [clientid, name, taxonomyid, taxonomytext, best[0], best[1], "Gift"]
+        list_of_matches.append(matches)
+
+    return list_of_matches

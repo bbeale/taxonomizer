@@ -26,7 +26,7 @@ temp = []
 countsheet_.writerow(toprow)
 
 for m in mappings_:
-    #pt = taxonomizer.GetUniqueTaxonomyWords(m[3])
+    #pt = taxonomizer.get_unique_taxonomy_words(m[3])
     #print "PT: ", pt
     pt_ = m[3].split("|")
     print "pt_: ", pt_

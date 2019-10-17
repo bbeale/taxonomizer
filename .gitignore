@@ -1,5 +1,7 @@
 data/
 venv/
 output/
+.idea/
+.vscode/
 
 *.pyc

@@ -1,18 +1,22 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from fuzzywuzzy import fuzz
 from Levenshtein import *
 import datetime
 import difflib
 import csv
+import os
 
 ## be sure to make sure column headers line up and remove them from the 
 ## spreadsheet before feeding into this script
 fname = "bboo"
 
 # set file path names
-desktop = "C:\\Users\\bbeale\\Desktop\\"
+datadir = os.path.relpath("data")
+outputdir = os.path.relpath("output")
 
-mappings = open(desktop + fname + ".csv", "r")
-reviewed = open(desktop + fname + " - SCORED - " + str(datetime.datetime.now().date()) + ".csv", "w")
+mappings = open(output_dir + fname + ".csv", "r")
+reviewed = open(output_dir + fname + " - SCORED - " + str(datetime.datetime.now().date()) + ".csv", "w")
 
 mappings_ = csv.reader(mappings, delimiter=',', lineterminator='\n')
 reviewed_ = csv.writer(reviewed, delimiter=',', lineterminator='\n')
@@ -25,20 +29,23 @@ toprow_ = ["clientid", "Publisher taxonomyid", "Publisher taxonomytext", "global
 reviewed_.writerow(toprow_)
 
 for m in mappings_:
-    pt = m[2].rstrip().split("|")
-    gt = m[4].rstrip().split("|")
+    pt = m[2].rstrip().split("|")[-1].lower()
+    gt = m[4].rstrip().split("|")[-1].lower()
 
-    pt_ = pt[-1].lower()
-    gt_ = gt[-1].lower() 
+    # pt_ = pt[-1].lower()
+    # gt_ = gt[-1].lower()
 
-    dist = fuzz.WRatio(pt_, gt_)
+    dist = fuzz.WRatio(pt, gt)
 
-    if dist > 80: # Adjsut as needed
-        reviewed_.writerow([m[0], m[1], m[2], m[3], m[4], "Exact"])
+    distance = None
+    if dist > 80:  # Adjsut as needed
+        distance = "exact"
     elif dist > 50:
-        reviewed_.writerow([m[0], m[1], m[2], m[3], m[4], "Near"])
+        distance = "near"
     else:
-        reviewed_.writerow([m[0], m[1], m[2], m[3], m[4], "Far"])
+        distance = "far"
+
+    reviewed_.writerow([m[0], m[1], m[2], m[3], m[4], distance])
 
 mappings.close()
 reviewed.close()

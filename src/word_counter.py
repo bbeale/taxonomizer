@@ -1,46 +1,50 @@
-from dataops import taxonomizer
-from fuzzywuzzy import fuzz
-from Levenshtein import *
-import datetime, csv
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from src.data_ops import DataOps
+import os
 
 
+def main():
+
+    # filename
+    fname = "FNAC 2"
+
+    #index = -2
+
+    # set file path names
+    desktop = os.path.relpath("data")
+
+    dataops = DataOps()
+    mappings = None
+    countsheet = None
+    temp = []
+
+    with open(desktop + fname + ".csv", "r") as m:
+        global mappings
+        mappings = m.readlines()
+
+    with open(desktop + "taxonomy_outputs/" + fname + " - Word Count.csv", "w") as c:
+        global countsheet
+
+        toprow = ["word", "count"]
+
+        countsheet.writerow(toprow)
+
+        for m in mappings:
+            pt = dataops.get_unique_taxonomy_words(m[3])
+            pt_ = m[3].split("|")
+            print("pt_: ", pt_)
+            for item in pt_:
+                temp.append(item)
+
+        counter, limit = dataops.get_most_frequent_word(temp)
+
+        for key, value in counter.items():
+            print("The word ", key, " occurred ", value, " times.")
+            countsheet.writerow([key, value])
+
+        countsheet.writerow(["Most frequent word: ", max])
 
 
-# filename
-fname = "FNAC 2"
-
-#index = -2
-
-
-# set file path names
-desktop = "C:\\Users\\bbeale\\Desktop\\"
-
-mappings = open(desktop + fname + ".csv", "r")
-countsheet = open(desktop + "taxonomy_outputs\\" + fname + " - Word Count.csv", "w")
-
-mappings_ = csv.reader(mappings, delimiter=',', lineterminator='\n')
-countsheet_ = csv.writer(countsheet, delimiter=',', lineterminator='\n')
-
-toprow = ["word", "count"]
-temp = []
-countsheet_.writerow(toprow)
-
-for m in mappings_:
-    #pt = taxonomizer.get_unique_taxonomy_words(m[3])
-    #print "PT: ", pt
-    pt_ = m[3].split("|")
-    print "pt_: ", pt_
-    for item in pt_: #.split():
-        temp.append(item) 
-
-counter, max = taxonomizer.GetMostFrequentWord(temp)
-
-
-for key, value in counter.items():
-    print "The word ", key, " occurred ", value, " times."
-    countsheet_.writerow([key, value])
-    
-countsheet_.writerow(["Most frequent word: ", max])
-
-mappings.close()
-countsheet.close()
+if __name__ == "__main__":
+    main()

@@ -1,11 +1,29 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from fuzzywuzzy import fuzz
 from Levenshtein import *
 import datetime
+import spacy
 import csv
 import re
 
+"""
+> `python -m spacy download en_core_web_md`  
+> `python -m spacy download en_core_web_lg`&emsp;&emsp;&ensp;*optional library*  
+> `python -m spacy download en_vectors_web_lg`&emsp;*optional library*  
 
-class Taxonomizer:
+spacy download en_core_web_md && spacy download en_core_web_lg && spacy download en_vectors_web_lg
+
+
+
+
+
+toprow = ["clientid", "name", "Publisher taxonomyid", "Publisher taxonomytext", "globaltaxonomyid", "Global taxonomytext", "Distance"]
+
+
+"""
+
+class DataOps:
 
     def __init__(self):
         pass
@@ -13,13 +31,13 @@ class Taxonomizer:
     def compare_nodes(self, p, g, threshold):
         return fuzz.WRatio(p, g) >= threshold
 
-    def compare_tokens_sort(p, g, threshold):
+    def compare_tokens_sort(self, p, g, threshold):
         return fuzz.partial_token_sort_ratio(p, g) >= threshold
 
-    def compare_tokens_set(p, g, threshold):
+    def compare_tokens_set(self, p, g, threshold):
         return fuzz.partial_token_set_ratio(p, g) >= threshold
 
-    def set_review_level(score):
+    def set_review_level(self, score):
         if score >= 95:
             result = "Exact"
         elif score >= 90:
@@ -28,13 +46,13 @@ class Taxonomizer:
             result = "Far"
         return result
 
-    def add_file_contents_to_list(filename):
+    def add_file_contents_to_list(self, filename):
         with open(filename, "r") as f:
             f_reader = csv.reader(f, delimiter=",", lineterminator="\n")
             f_list = [fr for fr in f_reader]
         return f_list
 
-    def get_unique_taxonomy_words(tax):
+    def get_unique_taxonomy_words(self, tax):
         newtax = re.sub("[^a-zA-Z]+", " ", tax).split()
         newtax.sort()
         ulist = []
@@ -43,7 +61,7 @@ class Taxonomizer:
                 ulist.append(node)
         return " ".join(ulist)
 
-    def get_taxonomy_words_and_symbols(tax):
+    def get_taxonomy_words_and_symbols(self, tax):
         newtax = re.sub("[^a-zA-Z%$]+", " ", tax).split()
         newtax.sort()
         ulist = []
@@ -52,8 +70,7 @@ class Taxonomizer:
                 ulist.append(node)
         return " ".join(ulist)
 
-
-    def get_taxonomy_nodes(taxonomy, selector, index):
+    def get_taxonomy_nodes(self, taxonomy, selector, index):
         # adjust index for pub or goog
         taxonomy_list = taxonomy[selector].split("|")
         results = []
@@ -64,8 +81,7 @@ class Taxonomizer:
         finally:
             return results
 
-
-    def get_most_frequent_word(source):
+    def get_most_frequent_word(self, source):
         word_counter = {}
         for s in source:
             if word_counter[s]:
@@ -74,8 +90,7 @@ class Taxonomizer:
                 word_counter[s] = 1
         return word_counter, max(word_counter, key=lambda key: word_counter[key])
 
-
-    def compare_taxonomies(pub, goog, index, threshold):
+    def compare_taxonomies(self, pub, goog, index, threshold):
 
         clientid            = None
         name                = None
@@ -87,13 +102,13 @@ class Taxonomizer:
 
         for p in pub:
 
-            node_to_compare = get_taxonomy_nodes(p, 3, index)
+            node_to_compare = self.get_taxonomy_nodes(p, 3, index)
             best            = ["NULL", "NULL"]
             score           = 0
 
             for g in goog:
-                google_end_node = get_taxonomy_nodes(g, 1, -1)
-                if compare_nodes(node_to_compare, google_end_node, threshold):
+                google_end_node = self.get_taxonomy_nodes(g, 1, -1)
+                if self.compare_nodes(node_to_compare, google_end_node, threshold):
                     if fuzz.WRatio(node_to_compare, google_end_node) > score:
                         best = g
                         score = fuzz.WRatio(node_to_compare, google_end_node)
@@ -102,7 +117,7 @@ class Taxonomizer:
                 name            = p[1]
                 taxonomyid      = p[2]
                 taxonomytext    = p[3]
-                flag            = set_review_level(score)
+                flag            = self.set_review_level(score)
 
             if score > threshold:
                 matches = [clientid, name, taxonomyid, taxonomytext, best[0], best[1], flag]
@@ -112,8 +127,7 @@ class Taxonomizer:
                 list_to_rerun.append(temp_list)
         return list_of_matches, list_to_rerun
 
-
-    def compare_taxonomies_by_token(pub, goog, index, threshold):
+    def compare_taxonomies_by_token(self, pub, goog, index, threshold):
 
         clientid            = None
         name                = None
@@ -124,9 +138,9 @@ class Taxonomizer:
 
         for p in pub:
             try:
-                node_to_compare = get_unique_taxonomy_words(get_taxonomy_nodes(p, 3, index))
+                node_to_compare = self.get_unique_taxonomy_words(self.get_taxonomy_nodes(p, 3, index))
             except IndexError:
-                node_to_compare = get_unique_taxonomy_words(get_taxonomy_nodes(p, 3, -1))
+                node_to_compare = self.get_unique_taxonomy_words(self.get_taxonomy_nodes(p, 3, -1))
 
             best    = ["NULL", "NULL"]
             score   = 0
@@ -135,8 +149,8 @@ class Taxonomizer:
 
             for g in goog:
                 # google_node = get_taxonomy_nodes(g, 1, -1)
-                google_node = get_unique_taxonomy_words(g[1])
-                if compare_tokens_sort(node_to_compare, google_node, threshold):
+                google_node = self.get_unique_taxonomy_words(g[1])
+                if self.compare_tokens_sort(node_to_compare, google_node, threshold):
                     if fuzz.partial_token_sort_ratio(node_to_compare, google_node) > score:
                     # if fuzz.partial_token_set_ratio(node_to_compare, google_node) > score:
                         best    = g
@@ -156,8 +170,7 @@ class Taxonomizer:
                 list_to_rerun.append(temp_list)
         return list_of_matches, list_to_rerun
 
-
-    def map_bucket_taxonomies(pub):
+    def map_bucket_taxonomies(self, pub):
 
         bucket = [
             "sale", "special", "deal", "promo", "offer", "save", "savings", "new arrival", "featured", "reduced", "refurbished", "free shipping", "event", "dollar", "online only", "value", "clearance", "best seller", "open box", "price drop", "trade in", "door buster", "liquidation", "bundle", "campaign", "upgrade", "coupon", "trade in", "service", "installation", "repair", "warranty", "guarantee", "rewards", "replacement", "refund", "customer", "delivery", "pickup", "setup", "financing", "layaway", "credit", "credit card", "photo center", "preorder", "$", "%", "test", "brand"
@@ -174,7 +187,7 @@ class Taxonomizer:
             best            = ["NULL", "NULL"]
 
             for b in bucket:
-                if is_in_bucket(b, taxonomytext):
+                if self.is_in_bucket(b, taxonomytext):
                     print(b, " is in ", taxonomytext)
                     best = ["-10", "Unmapped SKUs|All|Misc. Uncategorized"]
 
@@ -182,12 +195,10 @@ class Taxonomizer:
             list_of_matches.append(matches)
         return list_of_matches
 
-
-    def is_in_bucket(item, taxonomy):
+    def is_in_bucket(self, item, taxonomy):
         return item in taxonomy
 
-
-    def map_vintage_taxonomies(pub):
+    def map_vintage_taxonomies(self, pub):
 
         vintages = [
             "collectible",
@@ -205,18 +216,17 @@ class Taxonomizer:
             taxonomytext    = p[3].lower()
             best            = ["NULL", "NULL"]
 
-            p_unique = get_unique_taxonomy_words(taxonomytext)
+            p_unique = self.get_unique_taxonomy_words(taxonomytext)
 
             for vint in vintages:
-                if is_in_bucket(vint, taxonomytext):
+                if self.is_in_bucket(vint, taxonomytext):
                     print(vint, " is in ", taxonomytext)
                     best = ["150477", "Arts & Entertainment|Hobbies & Creative Arts|Collectibles"]
             matches = [clientid, name, taxonomyid, taxonomytext, best[0], best[1], "Vintage"]
             list_of_matches.append(matches)
         return list_of_matches
 
-
-    def map_books(pub):
+    def map_books(self, pub):
 
         list_of_matches = []
 
@@ -228,17 +238,16 @@ class Taxonomizer:
             taxonomytext    = p[3].lower()
             best            = ["NULL", "NULL"]
 
-            p_unique = get_unique_taxonomy_words(taxonomytext)
+            p_unique = self.get_unique_taxonomy_words(taxonomytext)
 
-            if is_in_bucket("book", taxonomytext):
+            if self.is_in_bucket("book", taxonomytext):
                 print("book is in ", taxonomytext)
                 best = ["153484", "Media|Books"]
             matches = [clientid, name, taxonomyid, taxonomytext, best[0], best[1], "Book"]
             list_of_matches.append(matches)
         return list_of_matches
 
-
-    def map_gifts(pub):
+    def map_gifts(self, pub):
 
         list_of_matches = []
 
@@ -250,9 +259,9 @@ class Taxonomizer:
             taxonomytext    = p[3].lower()
             best            = ["NULL", "NULL"]
 
-            p_unique = get_unique_taxonomy_words(taxonomytext)
+            p_unique = self.get_unique_taxonomy_words(taxonomytext)
 
-            if is_in_bucket("gift", taxonomytext):
+            if self.is_in_bucket("gift", taxonomytext):
                 print("gift is in ", taxonomytext)
                 best = ["150790", "Arts & Entertainment|Party & Celebration|Gift Giving"]
             matches = [clientid, name, taxonomyid, taxonomytext, best[0], best[1], "Gift"]

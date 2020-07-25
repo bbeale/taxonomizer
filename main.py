@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from src.data_ops import DataOps
+from taxonomizer import Taxonomizer
 import csv
 import os
 
@@ -15,10 +15,12 @@ def main():
     index = -1
     datadir = os.path.relpath("data")
     outputdir = os.path.relpath("output")
+    outfilename = os.path.join(datadir, f"{filename}.csv")
+    googfilename = os.path.join(datadir, "googletaxonomy.csv")
 
-    do = DataOps()
-    p_list = do.add_file_contents_to_list("{}/{}.csv".format(datadir, filename))
-    g_list = do.add_file_contents_to_list("{}/googletaxonomy.csv".format(datadir))
+    taxo = Taxonomizer()
+    p_list = taxo.add_file_contents_to_list(outfilename)
+    g_list = taxo.add_file_contents_to_list(googfilename)
 
     # toprow for output file
     toprow = ["ClientId", "Name", "PublisherTaxonomyId", "PublisherTaxonomyText", "GlobalTaxonomyId", "GlobalTaxonomyText", "Flag"]
@@ -28,7 +30,7 @@ def main():
         final_.writerow(toprow)
 
     # Normal node comparison
-    final_list, rerun_list = do.compare_taxonomies(p_list, g_list, index, threshold)
+    final_list, rerun_list = taxo.compare_taxonomies(p_list, g_list, index, threshold)
 
     # Write matches to final file and misses to rerun file
     print("Final: ", type(final_list), len(final_list))

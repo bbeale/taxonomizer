@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from src.data_ops import DataOps
+from taxonomizer import Taxonomizer
 import os
 
 
@@ -14,7 +14,7 @@ def main():
     # set file path names
     desktop = os.path.relpath("data")
 
-    dataops = DataOps()
+    taxo = Taxonomizer()
     mappings = None
     countsheet = None
     temp = []
@@ -31,13 +31,13 @@ def main():
         countsheet.writerow(toprow)
 
         for m in mappings:
-            pt = dataops.get_unique_taxonomy_words(m[3])
+            pt = taxo.get_unique_taxonomy_words(m[3])
             pt_ = m[3].split("|")
             print("pt_: ", pt_)
             for item in pt_:
                 temp.append(item)
 
-        counter, limit = dataops.get_most_frequent_word(temp)
+        counter, limit = taxo.get_most_frequent_word(temp)
 
         for key, value in counter.items():
             print("The word ", key, " occurred ", value, " times.")

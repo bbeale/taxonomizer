@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from fuzzywuzzy import fuzz
-from Levenshtein import *
 import datetime
 import spacy
 import csv
@@ -23,21 +22,21 @@ toprow = ["clientid", "name", "Publisher taxonomyid", "Publisher taxonomytext", 
 
 """
 
-class DataOps:
+class Taxonomizer:
 
     def __init__(self):
         pass
 
-    def compare_nodes(self, p, g, threshold):
+    def compare_nodes(self, p: str, g: str, threshold: int) -> bool:
         return fuzz.WRatio(p, g) >= threshold
 
-    def compare_tokens_sort(self, p, g, threshold):
+    def compare_tokens_sort(self, p: str, g: str, threshold: int) -> bool:
         return fuzz.partial_token_sort_ratio(p, g) >= threshold
 
-    def compare_tokens_set(self, p, g, threshold):
+    def compare_tokens_set(self, p: str, g: str, threshold: int) -> bool:
         return fuzz.partial_token_set_ratio(p, g) >= threshold
 
-    def set_review_level(self, score):
+    def set_review_level(self, score: int) -> str:
         if score >= 95:
             result = "Exact"
         elif score >= 90:
@@ -46,13 +45,13 @@ class DataOps:
             result = "Far"
         return result
 
-    def add_file_contents_to_list(self, filename):
+    def add_file_contents_to_list(self, filename: str) -> list:
         with open(filename, "r") as f:
             f_reader = csv.reader(f, delimiter=",", lineterminator="\n")
             f_list = [fr for fr in f_reader]
         return f_list
 
-    def get_unique_taxonomy_words(self, tax):
+    def get_unique_taxonomy_words(self, tax: str) -> str:
         newtax = re.sub("[^a-zA-Z]+", " ", tax).split()
         newtax.sort()
         ulist = []
@@ -61,7 +60,7 @@ class DataOps:
                 ulist.append(node)
         return " ".join(ulist)
 
-    def get_taxonomy_words_and_symbols(self, tax):
+    def get_taxonomy_words_and_symbols(self, tax: str) -> str:
         newtax = re.sub("[^a-zA-Z%$]+", " ", tax).split()
         newtax.sort()
         ulist = []
@@ -70,18 +69,17 @@ class DataOps:
                 ulist.append(node)
         return " ".join(ulist)
 
-    def get_taxonomy_nodes(self, taxonomy, selector, index):
+    def get_taxonomy_nodes(self, taxonomy: str, selector: slice, index: int) -> str:
         # adjust index for pub or goog
         taxonomy_list = taxonomy[selector].split("|")
-        results = []
+        results = None
         try:
             results = taxonomy_list[index].strip().lower()
         except IndexError:
             results = taxonomy_list[-1].strip().lower()
-        finally:
-            return results
+        return results
 
-    def get_most_frequent_word(self, source):
+    def get_most_frequent_word(self, source: list) -> (dict, int):
         word_counter = {}
         for s in source:
             if word_counter[s]:
@@ -90,7 +88,7 @@ class DataOps:
                 word_counter[s] = 1
         return word_counter, max(word_counter, key=lambda key: word_counter[key])
 
-    def compare_taxonomies(self, pub, goog, index, threshold):
+    def compare_taxonomies(self, pub: list, goog: list, index: int, threshold: int) -> (list, list):
 
         clientid            = None
         name                = None
@@ -127,7 +125,7 @@ class DataOps:
                 list_to_rerun.append(temp_list)
         return list_of_matches, list_to_rerun
 
-    def compare_taxonomies_by_token(self, pub, goog, index, threshold):
+    def compare_taxonomies_by_token(self, pub: list, goog: list, index: int, threshold: int) -> (list, list):
 
         clientid            = None
         name                = None
@@ -148,14 +146,11 @@ class DataOps:
             print("Comparing", node_to_compare)
 
             for g in goog:
-                # google_node = get_taxonomy_nodes(g, 1, -1)
                 google_node = self.get_unique_taxonomy_words(g[1])
                 if self.compare_tokens_sort(node_to_compare, google_node, threshold):
                     if fuzz.partial_token_sort_ratio(node_to_compare, google_node) > score:
-                    # if fuzz.partial_token_set_ratio(node_to_compare, google_node) > score:
                         best    = g
                         score   = fuzz.partial_token_sort_ratio(node_to_compare, google_node)
-                        # score = fuzz.partial_token_set_ratio(node_to_compare, google_node)
 
                 clientid        = p[0]
                 name            = p[1]
@@ -170,7 +165,7 @@ class DataOps:
                 list_to_rerun.append(temp_list)
         return list_of_matches, list_to_rerun
 
-    def map_bucket_taxonomies(self, pub):
+    def map_bucket_taxonomies(self, pub: list) -> list:
 
         bucket = [
             "sale", "special", "deal", "promo", "offer", "save", "savings", "new arrival", "featured", "reduced", "refurbished", "free shipping", "event", "dollar", "online only", "value", "clearance", "best seller", "open box", "price drop", "trade in", "door buster", "liquidation", "bundle", "campaign", "upgrade", "coupon", "trade in", "service", "installation", "repair", "warranty", "guarantee", "rewards", "replacement", "refund", "customer", "delivery", "pickup", "setup", "financing", "layaway", "credit", "credit card", "photo center", "preorder", "$", "%", "test", "brand"
@@ -195,10 +190,10 @@ class DataOps:
             list_of_matches.append(matches)
         return list_of_matches
 
-    def is_in_bucket(self, item, taxonomy):
+    def is_in_bucket(self, item: str, taxonomy: str) -> bool:
         return item in taxonomy
 
-    def map_vintage_taxonomies(self, pub):
+    def map_vintage_taxonomies(self, pub: list) -> list:
 
         vintages = [
             "collectible",
@@ -226,7 +221,7 @@ class DataOps:
             list_of_matches.append(matches)
         return list_of_matches
 
-    def map_books(self, pub):
+    def map_books(self, pub: list) -> list:
 
         list_of_matches = []
 
@@ -247,7 +242,7 @@ class DataOps:
             list_of_matches.append(matches)
         return list_of_matches
 
-    def map_gifts(self, pub):
+    def map_gifts(self, pub: list) -> list:
 
         list_of_matches = []
 

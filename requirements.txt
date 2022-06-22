@@ -6,7 +6,7 @@ fuzzywuzzy==0.17.0
 idna==2.8
 jellyfish==0.7.2
 murmurhash==1.0.2
-numpy==1.21.0
+numpy==1.22.0
 plac==0.9.6
 preshed==3.0.2
 python-Levenshtein==0.12.0
